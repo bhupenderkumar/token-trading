@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# Project Overview: Solana Token Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a web-based dashboard for managing Solana tokens, providing a comprehensive suite of tools for token creation, distribution, and analysis.
 
-Currently, two official plugins are available:
+## Core Functionalities
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 1. Wallet Management
+- **Connect Wallet**: Users can connect their Solana wallets (e.g., Phantom, Solflare) to interact with the application.
+- **Wallet Info**: Displays the connected wallet's address, SOL balance, and the current network (Mainnet, Devnet, Localnet).
+- **Airdrop SOL**: On Devnet or Localnet, users can airdrop SOL to their wallet for testing purposes.
 
-## React Compiler
+### 2. Token Creation (Minting)
+- **Create Token**: A form allows users to define the properties of a new SPL (Solana Program Library) token, including:
+  - Token Name
+  - Symbol
+  - Decimals
+  - Initial Supply
+  - Image URL (for metadata)
+  - Description
+- **Metadata**: The application supports creating token metadata on-chain.
+- **Transaction Handling**: It constructs and sends the transaction to the Solana network, handling potential errors and providing feedback.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 3. Token Operations
+- **Token Overview**: Lists all tokens created by the user or held in their wallet, showing details like mint address, supply, and decimals.
+- **Airdrop Tokens**: Allows the user to send a specified amount of a token to another Solana address.
+- **Burn Tokens**: Users can burn (permanently destroy) a specified amount of a token they own.
 
-## Expanding the ESLint configuration
+### 4. Token and Network Analysis
+- **Verify Token**: Users can input a mint address to fetch and display on-chain details for any SPL token, including:
+  - Total Supply
+  - Largest Token Holders
+  - Links to explorers (Solana Explorer, Solscan, etc.)
+- **Transaction History**: Displays a log of recent transactions performed through the application, with status, signature, and links to explorers.
+- **Network Indicator**: Shows the currently selected network and provides a visual cue for network activity.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Technical Architecture
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Frontend**: Built with React and TypeScript.
+- **Solana Integration**: Uses `@solana/web3.js` and `@solana/spl-token` for interacting with the Solana blockchain.
+- **Wallet Adapter**: Implements `@solana/wallet-adapter` for wallet connectivity.
+- **Styling**: A combination of inline styles and CSS for a clean, modern UI.
+- **Resilient Connection**: A custom utility (`ResilientConnection`) manages RPC endpoint failover to ensure application reliability.
+- **Configuration**: Network endpoints and other settings are managed in a central `config.ts` file.
