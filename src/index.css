@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Motion tokens and theme variables */
+:root {
+  --motion-x-fast: 120ms;
+  --motion-fast: 180ms;
+  --motion-base: 240ms;
+  --motion-relaxed: 320ms;
+  --motion-deliberate: 480ms;
+
+  --ease-enter: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0.0, 1, 1);
+
+  --z-nav: 10;
+  --z-drawer: 20;
+  --z-modal: 30;
+  --z-toast: 40;
+  --z-loader: 50;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Shuffle card mount animation */
+.ux-card-enter {
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+  filter: blur(2px);
+}
+.ux-card-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition: opacity var(--motion-base) var(--ease-enter),
+              transform var(--motion-base) var(--ease-enter),
+              filter var(--motion-fast) var(--ease-enter);
+}
+
+/* Fade overlay/modal */
+.ux-fade-in {
+  opacity: 0;
+  animation: uxFadeIn var(--motion-relaxed) var(--ease-enter) forwards;
+}
+
+@keyframes uxFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Pop scale for dialogs */
+.ux-pop-in {
+  transform: translateY(12px) scale(0.96);
+  opacity: 0;
+  animation: uxPopIn var(--motion-relaxed) var(--ease-enter) forwards;
+}
+
+@keyframes uxPopIn {
+  0% { transform: translateY(12px) scale(0.96); opacity: 0; }
+  60% { transform: translateY(0) scale(1.02); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Mount highlight for new content */
+.ux-mount-highlight {
+  animation: uxMountWash 1200ms var(--ease-enter) 1;
+}
+@keyframes uxMountWash {
+  0% { box-shadow: 0 0 0 0 rgba(20, 241, 149, 0.0), inset 0 0 0 9999px rgba(20, 241, 149, 0.12); }
+  100% { box-shadow: 0 0 0 0 rgba(20, 241, 149, 0.0), inset 0 0 0 9999px rgba(20, 241, 149, 0.0); }
+}
+
+/* Button micro-interactions */
+.ux-button {
+  transition: transform var(--motion-fast) var(--ease-enter), box-shadow var(--motion-fast) var(--ease-enter);
+}
+.ux-button:active {
+  transform: scale(0.98);
+}
